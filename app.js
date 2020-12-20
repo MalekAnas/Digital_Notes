@@ -1,120 +1,203 @@
- //test
-'use strict';
+ 
 
-let modal = document.querySelector('.modal');
-let noteForm = document.querySelector('.note-form');
-let noteTable = document.querySelector('.note-table');
-let cancel = document. querySelector('.cancel-btn');
+'use strict'
 
-let noteDeleteButtons;
 let noteList = JSON.parse(localStorage.getItem('notes')) || [];
+let updateBtn = document.querySelector('.update-btn');
+let cancelBtn = document.querySelector('.trash-btn');
+let container = document.querySelector('.cards-container');
+let closeBtn = document.querySelector('.btn-close');
 
-noteForm.addEventListener('submit', (e)=>{
-  addNote(e);
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function(event) {
+
+
+  //the event occurred
+  initNoteButtons();
+  appendNotes();
+console.log('I am ready');
 
 });
 
-function addNote(e){
-    e.preventDefault();
 
-    let newNote = {};
+ function initNoteButtons(){
 
-    let title = document.querySelector('.title');
-    let note = document.querySelector('.note');
 
-    console.log(title);
-    if(title.value == '' || note.value == ''){
-      return alert('Please enter both fields.');
-    } else {
-      newNote.title = title.value;
-      newNote.note = note.value;
-    }
-    title.value = '';
-    note.value = '';
-    console.log(newNote);
+  updateBtn.addEventListener('click', (e)=>{
+    addNewNote(e);
 
-    noteList.push(newNote);
-    appendNotes();
-    cancel.click();
+  });
+
+
+  cancelBtn.addEventListener('click', (e)=>{
+    closeBtn.click();
+  });
+ }
+
+
+
+ 
+function addNewNote(e){
+ e.preventDefault();
+
+
+  let noteTitle = document.querySelector('.note-title');
+  let note = document.querySelector('.note') ;
+
+  let newNote = {};
+
+  let newNoteTitle = noteTitle.value;
+  let newNoteDescription = note.value;
+
+
+ if(newNoteTitle.value =='' || newNoteDescription == ''){
+  return alert('Please enter both fields.');
+ }
+ else{
+    
+  newNote.title = newNoteTitle;
+  newNote.note = newNoteDescription;
+
+ }
+ 
+ noteList.push(newNote);
+
+ noteTitle.value='';
+ note.value='';
+
+ 
+ appendNotes();
+
+
+ closeBtn.click();
+
+
+ console.log(newNote);
+
+
+
 
 }
 
+function deleteNote({target}){
+
+
+  console.log(target);
+  let filtered = noteList.filter(note =>{
+    return note.title !== target.id;
+  });
+
+  noteList = [...filtered];
+
+  console.log(filtered);
+
+  localStorage.setItem('notes', JSON.stringify(filtered));
+   
+  appendNotes();
+
+}
+
+
+
 function appendNotes(){
-  let notes = Array.from(document.querySelector('.noteItem'));
+    
+
+  let notes = Array.from(document.querySelectorAll('.card'));
   if(notes.length > 0){
     notes.forEach(note =>{
       note.remove();
     })
   }
 
-  noteList.map(note =>{
-    //Create table cells
-    let tr = document.createElement('tr');
-    tr.classList = 'noteItem';
-    let tdTitle = document.createElement('td');
-    tdTitle.innerText = note.title;
-    let tdNote = document.createElement('td');
-    tdNote.innerText = note.note;
-    let tdDelete = document.createElement('td');
-    tdDelete.innerHTML = '&times';
-    tdDelete.classList.add('delete-item');
+  noteList.forEach(element => {
+  
+  //Create cards
+    var card = `<!-- card -->
 
-    //Append cells to table row
-    tr.appendChild(tdTitle);
-    tr.appendChild(tdNote);
-    tr.appendChild(tdDelete);
+            <div class="card bg-note mx-3 my-3" style="width: 18rem">
+              <div
+                class="card-body btn"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                <h5 class="card-title text-center" >${element.title}</h5>
+                 
+                <p class="card-text">
+                  ${element.note}
+                </p>
+              </div>
+              <div class="text-center">
+                <button class="btn trash-card-btn" 
+                id= ${element.title}>
+                  Delete
+                </button>
+              </div>
+            </div>
+            <!-- card -->
+`
 
-    //Append row to table
-    noteTable.appendChild(tr);
-    getDeleteButtons();
+    let newDiv = document.createElement('div');
+    newDiv.classList.add('col');
+    newDiv.innerHTML = card;
+
+
+    container.appendChild(newDiv);
+    removeAllEventListenersFromTrashBtn();
+    addOnClickEventToTrash();
+
+
     localStorage.setItem('notes', JSON.stringify(noteList));
-  })
+ 
+
+ });   
 }
 
-function appendNotes(){
 
+function addOnClickEventToTrash() {
+  console.log();
+  let trashBTN = document.querySelectorAll(".trash-card-btn");
+  trashBTN.forEach(btn => {
+    
+    btn.addEventListener('click', deleteNote);
 
-  noteTable.innerHTML =''; // clear the table before appending new note
-
-  noteList.map(note =>{
-    //Create table cells
-    let tr = document.createElement('tr');
-    tr.classList = 'noteItem';
-    let tdTitle = document.createElement('td');
-    tdTitle.innerText = note.title;
-    let tdNote = document.createElement('td');
-    tdNote.innerText = note.note;
-    let tdDelete = document.createElement('td');
-    tdDelete.innerHTML = '&times';
-    tdDelete.classList.add('delete-item');
-
-    //Append cells to table row
-    tr.appendChild(tdTitle);
-    tr.appendChild(tdNote);
-    tr.appendChild(tdDelete);
-
-    //Append row to table
-    noteTable.appendChild(tr);
-    getDeleteButtons();
-    localStorage.setItem('notes', JSON.stringify(noteList));
-  })
+  });
 }
-function getDeleteButtons(){
-  noteDeleteButtons = Array.from(document.querySelectorAll('.delete-item'))
 
-  noteDeleteButtons.forEach(button =>{
-    let noteTitle = button.previousSibling.previousSibling.innerText;
-    button.addEventListener('click', () => {
-      deleteNote(noteTitle);
-    })
-  })
+function removeAllEventListenersFromTrashBtn(){
+  console.log();
+  let trashBTN = document.querySelectorAll(".trash-card-btn");
+  trashBTN.forEach(btn => {
+    
+    btn.removeEventListener('click',deleteNote);
+
+  });
+
 }
-function deleteNote(noteTitle){
-    for(let i = 0; i < noteList.length; i++) {
-      if(noteList[i].title == noteTitle){
-        noteList.splice(i, 1);
-      }
-    }
-    localStorage.setItem('notes', JSON.stringify(noteList))
-    appendNotes()
+
+
+function otherFunction(){
+let addNote = document.querySelector('.add-note');
+let modal = document.querySelector('.modal');
+
+let trashBtn = document.querySelector('#trash-card-btn');
+let cardTitle = document.querySelector('.card-title');
+
+
+
+
+appendNotes();
+
+
+
+
+
+
+
 }
