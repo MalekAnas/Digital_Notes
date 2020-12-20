@@ -1,106 +1,86 @@
 * {
-  margin: 0;
-  padding: 0;
+  padding: 0%;
+  margin: 0%;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-}
-a {
-  text-decoration: none;
-  color: #ffffff;
-}
-.add-note {
-  position: relative;
-  text-align: center;
-  color: white;
-  padding-top: 50px;
-  font-weight: 900;
-  font-size: 40px;
-}
-.add-note:hover {
-  opacity: 0.7;
 }
 body,
 html {
-  width: 100%;
-  height: 100vh;
-  background: url("./imgs/sea.jpeg");
+  font-family: "Montserrat", sans-serif;
+  background-image: url(/imgs/sea.jpeg);
   background-size: cover;
-  color: #ffffff;
+  min-width: 100%;
+  min-height: 100vh;
 }
-input {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #ffffff;
-  color: #ffffff;
-  color: black;
+
+/* Font weight /
+.mont-300 {
+  font-weight: 300;
 }
-h1 {
-  position: relative;
-  text-align: center;
+
+.mont-500 {
+  font-weight: 500;
 }
-.modal {
-  position: fixed;
-  top: -20%;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1.5rem;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  border: 1px solid black;
-  transition: 0.7s ease-in;
-  border-radius: 5px;
+
+.mont-700 {
+  font-weight: 700;
 }
-.modal:target {
-  opacity: 1;
-  top: 0;
-  pointer-events: auto;
-  background: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
+
+/ tool panel */
+
+.tool-panel {
+  margin: 0 auto;
+  margin-top: 3rem;
   width: 400px;
-  position: relative;
-  margin: 10% auto;
-  border: 1px solid rgba(0, 0, 0, 0.192);
-  padding: 2rem;
-  border-radius: 5px;
-  background-color: #ffffff5b;
+  height: 30px;
+  border-radius: 3rem;
 }
-.cancel,
-.submit {
+.add-note {
+  color: #ffdf88;
   text-align: center;
-  border: none;
-  color: #ffffff;
-  font-size: 1rem;
-  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
-.note-table {
-  position: relative;
-  width: 40%;
-  left: 10%;
-  background: #000000b7;
-  top: 10%;
-  border-radius: 5px;
+
+.add-note:hover {
+  background-color: #ffdf88;
+  color: black;
+  text-align: center;
+  display: inline-block;
 }
-.header {
-  color: rgb(133, 251, 255);
-  padding: 1rem;
+
+.bg-note {
+  background-color: #ffdf88;
 }
-.noteItem {
-  height: 2rem;
-  z-index: 1;
+.bg-note:hover {
+  background-color: #ffff88;
 }
-td {
-  padding: 1rem;
+.bg-modal {
+  background-color: #ffdf88;
 }
-.delete-item {
-  font-size: 1.5rem;
+
+.trash-btn {
+  font-size: 16px;
 }
-.delete-item:hover {
+.update-btn {
+  font-size: 16px;
+}
+.trash-btn:hover {
   color: red;
-  cursor: pointer;
+}
+.update-btn:hover {
+  color: rgb(39, 177, 39);
+}
+
+.trash-card-btn:hover {
+  color: red;
+}
+.update-card-btn:hover {
+  color: rgb(39, 177, 39);
+}
+.btn-close {
+  display: none;
+}
+
+.delet-card :hover {
+  color: red;
 }
