@@ -23,7 +23,7 @@ body,
 html {
   width: 100%;
   height: 100vh;
-  background: url("./imgs/sea.jpeg");
+  background: url("./imgs/mae-mu-rgEHTLwaI_8-unsplash.jpg");
   background-size: cover;
   color: #ffffff;
 }
@@ -35,7 +35,6 @@ input {
   border: none;
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
-  color: black;
 }
 h1 {
   position: relative;
@@ -68,7 +67,8 @@ h1 {
   border: 1px solid rgba(0, 0, 0, 0.192);
   padding: 2rem;
   border-radius: 5px;
-  background-color: #ffffff5b;
+  background-color: rgb(33, 51, 51);
+  color: white;
 }
 .cancel,
 .submit {
@@ -82,16 +82,21 @@ h1 {
   position: relative;
   width: 40%;
   left: 10%;
-  background: #000000b7;
+  background: #1f1f1fb7;
   top: 10%;
   border-radius: 5px;
+  font-size: large;
+  color: white;
+  text-align: center;
 }
 .header {
-  color: rgb(133, 251, 255);
+  color: rgb(255, 255, 255);
   padding: 1rem;
 }
 .noteItem {
   height: 2rem;
+  width: 6rem;
+
   z-index: 1;
 }
 td {
@@ -99,6 +104,8 @@ td {
 }
 .delete-item {
   font-size: 1.5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
 }
 .delete-item:hover {
   color: red;

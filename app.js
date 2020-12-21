@@ -14,6 +14,8 @@ noteForm.addEventListener('submit', (e)=>{
 
 });
 
+
+
 function addNote(e){
     e.preventDefault();
 
