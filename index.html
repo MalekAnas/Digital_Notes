@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Google Fonts Montserrat -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -25,51 +25,166 @@
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous"
     />
-
     <link rel="stylesheet" href="style.css" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <title>Digital Notes</title>
   </head>
   <body>
-    <div class="add-note">
-      <a href="#myModal" class="add-note">Add Note</a>
-    </div>
+    <div class="container-fluid">
+      <div class="row p-4">
+        <div class="text-center tool-panel">
+          <div class="row">
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn add-note"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              <h1 class="display-2 mont-500">Add Note</h1>
+            </button>
 
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content bg-modal">
+                  <div class="modal-header text-center">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                      New Note
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-modal" id="basic-addon1"
+                        >Title</span
+                      >
 
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <h1 class="header">
-        Add Note
-      </h1>
-      <form class="note-form" action="">
-        <label for="">Title</label></br>
-        <input type="text" class="title"></br>
-        <label for="">Note</label></br>
-        <input class="note" type="text"></br>
-        <input class="submit" type="submit">
-        <div class="cancel">
-          <a href="#close" class="cancel-btn">Cancel</a>
+                      <input
+                        type="text"
+                        class="form-control bg-modal note-title"
+                        placeholder="Note Title"
+                        aria-label="notetitle"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+
+                    <div class="input-group">
+                      <span class="input-group-text bg-modal">Note</span>
+                      <textarea
+                        class="form-control bg-modal note"
+                        placeholder="Note Description"
+                        aria-label="noteDescription"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="text-center">
+                      <button class="btn trash-btn">
+                        <i class="fas fa-times fa-3x"></i>
+                      </button>
+                      <button class="btn update-btn">
+                        <i class="fas fa-check fa-3x"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal -->
+            <div
+              class="modal fade modal-update"
+              id="staticBackdrop-update"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel-update"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content bg-modal">
+                  <div class="modal-header text-center">
+                    <h5 class="modal-title" id="staticBackdropLabel-update">
+                      New Note
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-modal" id="basic-addon1"
+                        >Title</span
+                      >
+
+                      <input
+                        type="text"
+                        id="note-title-update"
+                        class="form-control bg-modal"
+                        placeholder="Note Title"
+                        aria-label="notetitle"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+
+                    <div class="input-group">
+                      <span class="input-group-text bg-modal">Note</span>
+                      <textarea
+                        id="note-content-update"
+                        class="form-control bg-modal note"
+                        placeholder="Note Description"
+                        aria-label="noteDescription"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="text-center">
+                      <button id="update-card-btn" class="btn update-card-btn">
+                        <i class="fas fa-check fa-3x"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+
+      <br /><br />
+      <div class="row p-4">
+        <div class="container">
+          <div
+            class="row p-4 cards-container row-cols-1 row-cols-lg-4 row-cols-xl-5 row-cols-sm-2"
+          ></div>
+        </div>
+      </div>
     </div>
-  </div>
+    <!-- Optional JavaScript; choose one of the two! -->
 
-
-  <table class="note-table">
-    <tr>
-      <td class="header">Title</td>
-      <td class="header">Note</td>
-    </tr>
-  </table>
-
-
-   <!-- Option 1: Bootstrap Bundle with Popper -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
-  <script src="app.js"></script>
+
+    <script src="app.js"></script>
   </body>
 </html>

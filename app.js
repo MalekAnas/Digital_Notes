@@ -1,122 +1,258 @@
- //test
-'use strict';
+ 
 
-let modal = document.querySelector('.modal');
-let noteForm = document.querySelector('.note-form');
-let noteTable = document.querySelector('.note-table');
-let cancel = document. querySelector('.cancel-btn');
+'use strict'
 
-let noteDeleteButtons;
 let noteList = JSON.parse(localStorage.getItem('notes')) || [];
+let updateBtn = document.querySelector('.update-btn');
+let cancelBtn = document.querySelector('.trash-btn');
+let container = document.querySelector('.cards-container');
+let closeBtn = document.querySelector('.btn-close');
 
-noteForm.addEventListener('submit', (e)=>{
-  addNote(e);
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function(event) {
+
+
+  //the event occurred
+  initNoteButtons();
+  appendNotes();
+console.log('I am ready');
+
+ 
+
 
 });
 
 
+ function initNoteButtons(){
 
-function addNote(e){
-    e.preventDefault();
+ updateBtn.addEventListener('click', function () {
+    
+    
+    
 
-    let newNote = {};
+  });
+  updateBtn.addEventListener('click', (e)=>{
+    addNewNote(e);
 
-    let title = document.querySelector('.title');
-    let note = document.querySelector('.note');
+  });
 
-    console.log(title);
-    if(title.value == '' || note.value == ''){
-      return alert('Please enter both fields.');
-    } else {
-      newNote.title = title.value;
-      newNote.note = note.value;
-    }
-    title.value = '';
-    note.value = '';
-    console.log(newNote);
 
-    noteList.push(newNote);
-    appendNotes();
-    cancel.click();
+  cancelBtn.addEventListener('click', (e)=>{
+    closeBtn.click();
+  });
+ }
+
+
+
+ 
+function addNewNote(e){
+ e.preventDefault();
+
+
+  let noteTitle = document.querySelector('.note-title');
+  let note = document.querySelector('.note') ;
+
+  let newNote = {};
+
+  let newNoteTitle = noteTitle.value;
+  let newNoteDescription = note.value;
+
+
+ if(newNoteTitle.value =='' || newNoteDescription == ''){
+  return alert('Please enter both fields.');
+ }
+ else{
+    
+  newNote.title = newNoteTitle;
+  newNote.note = newNoteDescription;
+
+ }
+ 
+ noteList.push(newNote);
+
+ noteTitle.value='';
+ note.value='';
+
+ 
+ appendNotes();
+
+
+ closeBtn.click();
+
+
+ console.log(newNote);
+
+
+
 
 }
 
+
+function deleteNote(noteToDelete){
+
+
+  console.log(noteToDelete);
+  let filtered = noteList.filter(note =>{
+    return note.title !== noteToDelete.title;
+  });
+
+  noteList = [...filtered];
+
+  console.log(filtered);
+
+  localStorage.setItem('notes', JSON.stringify(filtered));
+   
+  appendNotes();
+
+}
+
+
+
 function appendNotes(){
-  let notes = Array.from(document.querySelector('.noteItem'));
+    
+
+  let notes = Array.from(document.querySelectorAll('.card'));
   if(notes.length > 0){
     notes.forEach(note =>{
       note.remove();
     })
   }
 
-  noteList.map(note =>{
-    //Create table cells
-    let tr = document.createElement('tr');
-    tr.classList = 'noteItem';
-    let tdTitle = document.createElement('td');
-    tdTitle.innerText = note.title;
-    let tdNote = document.createElement('td');
-    tdNote.innerText = note.note;
-    let tdDelete = document.createElement('td');
-    tdDelete.innerHTML = '&times';
-    tdDelete.classList.add('delete-item');
+  noteList.forEach(element => {
+          
+    
+    let newDiv = document.createElement('div');
+    newDiv.classList.add('col', 'card', 'bg-note', 'm-3' );
 
-    //Append cells to table row
-    tr.appendChild(tdTitle);
-    tr.appendChild(tdNote);
-    tr.appendChild(tdDelete);
+    //card body
+    let cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
+    cardBody.classList.add('btn');
+  
+    cardBody.setAttribute('type', 'button' );
+    
 
-    //Append row to table
-    noteTable.appendChild(tr);
-    getDeleteButtons();
+
+    //card title
+    let cardTitle = document.createElement('h4');
+    cardTitle.classList.add('card-title');
+    cardTitle.classList.add('text-center');
+    cardTitle.setAttribute('data-bs-toggle', 'modal');
+    cardTitle.setAttribute('data-bs-target' , '#staticBackdrop-update');
+
+
+    
+    
+    //text content for the card title
+    let titleContent = document.createTextNode(element.title);
+    cardTitle.appendChild(titleContent);
+
+
+
+
+     
+    cardBody.appendChild(cardTitle);
+
+
+    let cardNote = document.createElement('p');
+    let noteContent = document.createTextNode(element.note);
+
+    cardNote.appendChild(noteContent);
+    cardNote.classList.add('card-text');
+    cardBody.appendChild(cardNote);
+
+    //delete button
+    let delBtn = document.createElement('div');
+
+    delBtn.classList.add('text-center');
+    
+    let btn = document.createElement('Button');
+    btn.classList.add('btn', 'trash-btn');
+    let icon = document.createElement('i');
+    icon.classList.add('fa' ,'fa-trash');
+    btn.appendChild(icon);
+
+    //add event listener to delete btn to delete the note
+    btn.addEventListener('click', (e)=>{
+
+      deleteNote(element);
+    });
+
+
+    btn.classList.add('btn', 'trash-card-btn');
+    delBtn.appendChild(btn);
+    cardBody.appendChild(delBtn);
+
+
+    
+
+
+    newDiv.appendChild(cardBody);
+
+    container.appendChild(newDiv);
+    removeAllEventListenersFromTrashBtn();
+    addOnClickEventToTrash();
+
+
     localStorage.setItem('notes', JSON.stringify(noteList));
-  })
+ 
+
+ });   
 }
 
-function appendNotes(){
 
+function addOnClickEventToTrash() {
+  console.log();
+  let trashBTN = document.querySelectorAll(".trash-card-btn");
+  trashBTN.forEach(btn => {
+    
+    btn.addEventListener('click', deleteNote);
 
-  noteTable.innerHTML =''; // clear the table before appending new note
-
-  noteList.map(note =>{
-    //Create table cells
-    let tr = document.createElement('tr');
-    tr.classList = 'noteItem';
-    let tdTitle = document.createElement('td');
-    tdTitle.innerText = note.title;
-    let tdNote = document.createElement('td');
-    tdNote.innerText = note.note;
-    let tdDelete = document.createElement('td');
-    tdDelete.innerHTML = '&times';
-    tdDelete.classList.add('delete-item');
-
-    //Append cells to table row
-    tr.appendChild(tdTitle);
-    tr.appendChild(tdNote);
-    tr.appendChild(tdDelete);
-
-    //Append row to table
-    noteTable.appendChild(tr);
-    getDeleteButtons();
-    localStorage.setItem('notes', JSON.stringify(noteList));
-  })
+  });
 }
-function getDeleteButtons(){
-  noteDeleteButtons = Array.from(document.querySelectorAll('.delete-item'))
 
-  noteDeleteButtons.forEach(button =>{
-    let noteTitle = button.previousSibling.previousSibling.innerText;
-    button.addEventListener('click', () => {
-      deleteNote(noteTitle);
-    })
-  })
+function removeAllEventListenersFromTrashBtn(){
+  console.log();
+  let trashBTN = document.querySelectorAll(".trash-card-btn");
+  trashBTN.forEach(btn => {
+    
+    btn.removeEventListener('click',deleteNote);
+
+  });
+
 }
-function deleteNote(noteTitle){
-    for(let i = 0; i < noteList.length; i++) {
-      if(noteList[i].title == noteTitle){
-        noteList.splice(i, 1);
-      }
-    }
-    localStorage.setItem('notes', JSON.stringify(noteList))
-    appendNotes()
+
+
+function otherFunction(){
+ 
+
+ 
+
 }
+
+
+// new features 
+// update note title and description 
+//
+
+
+function updateNote({target}){
+   
+
+  let updatedTitle = document.getElementById('note-title-update');
+  let updatedNote = document.querySelector('.note-update');
+
+  let updateBtn = document.getElementById('save-btn');
+  
+
+
+
+}
+
+
