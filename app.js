@@ -7,6 +7,8 @@ let updateBtn = document.querySelector('.update-btn');
 let cancelBtn = document.querySelector('.trash-btn');
 let container = document.querySelector('.cards-container');
 let closeBtn = document.querySelector('.btn-close');
+let changeBG = document.getElementById('change-bg');
+let counter=0;
 
 
 
@@ -30,6 +32,22 @@ console.log('I am ready');
 
 
  function initNoteButtons(){
+
+
+  changeBG.addEventListener('click', function(){
+ 
+
+     
+      document.body.style = `background-image: url('/imgs/sea.jpeg');`;
+
+     
+    
+     
+
+    
+
+  });
+
 
  updateBtn.addEventListener('click', function () {
     
