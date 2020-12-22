@@ -143,8 +143,9 @@ function appendNotes(){
     let cardTitle = document.createElement('h4');
     cardTitle.classList.add('card-title');
     cardTitle.classList.add('text-center');
-    cardTitle.setAttribute('data-bs-toggle', 'modal');
-    cardTitle.setAttribute('data-bs-target' , '#staticBackdrop-update');
+
+    // cardTitle.setAttribute('data-bs-toggle', 'modal');
+    // cardTitle.setAttribute('data-bs-target' , '#staticBackdrop-update');
 
 
     
@@ -152,6 +153,16 @@ function appendNotes(){
     //text content for the card title
     let titleContent = document.createTextNode(element.title);
     cardTitle.appendChild(titleContent);
+
+    cardTitle.contentEditable ='true';
+
+    cardTitle.oninput = (e) =>{
+      console.log(e.target.innerText);
+      element.title = e.target.innerText;
+      console.log(element);
+    localStorage.setItem('notes', JSON.stringify(noteList));
+
+    };
 
 
 
@@ -162,6 +173,14 @@ function appendNotes(){
 
     let cardNote = document.createElement('p');
     let noteContent = document.createTextNode(element.note);
+    cardNote.contentEditable ='true';
+
+    cardNote.oninput = (e) =>{
+      element.note = e.target.innerText;
+      console.log(element);
+      localStorage.setItem('notes', JSON.stringify(noteList));
+    };
+
 
     cardNote.appendChild(noteContent);
     cardNote.classList.add('card-text');
