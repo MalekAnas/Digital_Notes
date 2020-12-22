@@ -40,12 +40,9 @@ console.log('I am ready');
      
       document.body.style = `background-image: url('/imgs/sea.jpeg');`;
 
-     
-    
-     
-
-    
-
+      //TODO
+      //connect to unsplash api to get different image each time changeBG is clicked
+ 
   });
 
 
